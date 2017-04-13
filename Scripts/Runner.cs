@@ -2,6 +2,7 @@
 
 public class Runner : MonoBehaviour {
 
+	private Vector3 directionVector;
 	private CharacterController controller;
 
 	public float speed = 3.0f;
@@ -13,7 +14,13 @@ public class Runner : MonoBehaviour {
 
 	// Update per frame
 	void Update () {
-		controller.Move((Vector3.forward * speed) * Time.deltaTime);
+		directionVector = Vector3.zero;
 
+		// X - Left or Right
+		directionVector.x = Input.GetAxis("Horizontal");
+
+		// Y - Up and Down
+		// Z - Forward and Backward
+		controller.Move((directionVector * speed) * Time.deltaTime);
 	}
-}  
+}
