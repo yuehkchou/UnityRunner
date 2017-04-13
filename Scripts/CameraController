@@ -7,4 +7,14 @@ public class CameraController : MonoBehaviour {
 	private Transform playerTransform;
 	private Vector3 initOffset;
 
+	// Use this for initialization
+	void Start () {
+		playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+		initOffset = transform.position - playerTransform.position;
+	}
+
+	// Update is called once per frame
+	void Update () {
+		transform.position = playerTransform.position + initOffset;
+	}
 }
