@@ -21,7 +21,10 @@ public class Runner : MonoBehaviour {
 	// Update per frame
 	void Update () {
 
-		//
+        if (isDead) {
+            return;
+        }
+		//if player is grounded
 		if (controller.isGrounded) {
 			verticalVelocity = -0.5f;
 		} else {
@@ -44,13 +47,13 @@ public class Runner : MonoBehaviour {
 
     // Callback called whenever the collider box hits something
     private void OnControllerColliderHit(ControllerColliderHit hit) {
-        if(hit.point.z > transform.position.z + controller.radius) {
+        if(hit.point.z > transform.position.z + 0.1f && hit.gameObject.tag =="Enemy") {
             Death();
         }
     }
 
     private void Death() {
-        Debug.Log("so dead");
+        print("so dead");
         isDead = true;
         GetComponent<Score>().onDeath();
     }
