@@ -11,6 +11,8 @@ public class Runner : MonoBehaviour {
 	public float verticalVelocity = 0.0f;
 	public float gravity = 9.8f;
 
+    private bool isDead = false;
+
 	// Intialization
 	void Start () {
 		controller = GetComponent<CharacterController>();
@@ -18,7 +20,6 @@ public class Runner : MonoBehaviour {
 
 	// Update per frame
 	void Update () {
-		directionVector = Vector3.zero;
 
 		//
 		if (controller.isGrounded) {
@@ -36,4 +37,21 @@ public class Runner : MonoBehaviour {
 		directionVector.z = speed;
 		controller.Move((directionVector * speed) * Time.deltaTime);
 	}
+
+    public void SetSpeed(float modifier){
+        speed = 5.0f + modifier;
+    }
+
+    // Callback called whenever the collider box hits something
+    private void OnControllerColliderHit(ControllerColliderHit hit) {
+        if(hit.point.z > transform.position.z + controller.radius) {
+            Death();
+        }
+    }
+
+    private void Death() {
+        Debug.Log("so dead");
+        isDead = true;
+        GetComponent<Score>().onDeath();
+    }
 }
