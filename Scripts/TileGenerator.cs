@@ -21,6 +21,10 @@ public class TileGenerator : MonoBehaviour {
     // Creating a zone of
     private float safeZone = 25.0f;
 
+    // Last Repeated Index
+
+    private int lastPrefabIndex = 0;
+
     // Store Tileset
     private List<GameObject> activeTiles;
 
@@ -45,8 +49,8 @@ public class TileGenerator : MonoBehaviour {
 
 	private void SpawnTile(int prefabInd = -1) {
 		GameObject tileset;
-		tileset = Instantiate(tilePrefabs[0]) as GameObject;
-		tileset.transform.SetParent(transform);
+		tileset = Instantiate(tilePrefabs[RandomPrefabIndex()]) as GameObject;
+		tileset.transform.SetParent(this.transform);
 		tileset.transform.position = Vector3.forward * spawnZ;
 		spawnZ += tileLength;
         activeTiles.Add(tileset);
@@ -56,4 +60,16 @@ public class TileGenerator : MonoBehaviour {
         Destroy(activeTiles[0]);
         activeTiles.RemoveAt(0);
 	}
+
+    private int RandomPrefabIndex() {
+        if (tilePrefabs.Length <= 1) return 0;
+
+        int randomIndex = lastPrefabIndex;
+        while( randomIndex == lastPrefabIndex) {
+            randomIndex = Random.Range(0, tilePrefabs.Length);
+        }
+
+        lastPrefabIndex = randomIndex;
+        return randomIndex;
+    }
 }
