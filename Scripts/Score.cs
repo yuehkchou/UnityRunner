@@ -12,6 +12,7 @@ public class Score : MonoBehaviour {
     private float maxDifficultyLevel = 10;
     private float scoreToNextLevel = 10;
 
+    public DeathMenu deathMenu;
     private bool isDead = false;
 
     // Use this for initialization
@@ -28,6 +29,7 @@ public class Score : MonoBehaviour {
         score += Time.deltaTime;
         if (score >= scoreToNextLevel)
             LevelUp();
+
         scoreText.text = ((int)score).ToString();
 	}
     void LevelUp() {
@@ -38,5 +40,6 @@ public class Score : MonoBehaviour {
 
     public void onDeath() {
         isDead = true;
+        deathMenu.ToggleEndMenu(score);
     }
 }
